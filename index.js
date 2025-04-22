@@ -15,5 +15,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/user", require("./src/routes/user"));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Optional root route
+app.get("/", (req, res) => {
+  res.send("Welcome to the Expense Manager API 🚀");
+});
+
+// ✅ Export the app instead of listening to a port
+module.exports = app;
