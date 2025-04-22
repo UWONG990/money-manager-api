@@ -20,5 +20,4 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Expense Manager API 🚀");
 });
 
-// ✅ Export the app instead of listening to a port
 module.exports = app;
