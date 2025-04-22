@@ -6,23 +6,29 @@ exports.addExpense = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const expense = await prisma.expense.create({
-      data: { amount, category, note, userId }
+    const transaction = await prisma.transaction.create({
+      data: {
+        amount,
+        category,
+        note,
+        type: "expense", // ← this differentiates from income
+        userId,
+      },
     });
 
-    // Decrease wallet
+    // Subtract from wallet
     await prisma.user.update({
       where: { id: userId },
-      data: {
-        wallet: { decrement: amount } // subtract from wallet
-      }
+      data: { wallet: { decrement: amount } },
     });
 
-    res.json(expense);
+    res.json(transaction);
   } catch (err) {
+    console.error("Error in addExpense:", err);
     res.status(500).json({ error: "Could not add expense" });
   }
 };
+
 
 
 exports.getTransactions = async (req, res) => {
