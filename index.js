@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./src/routes/auth");
-const expenseRoutes = require("./src/routes/expenses");
+const transactionRoutes = require("./src/routes/transactions");
 const { PrismaClient } = require("@prisma/client");
 
 const app = express();
@@ -12,7 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/expenses", expenseRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/user", require("./src/routes/user"));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
